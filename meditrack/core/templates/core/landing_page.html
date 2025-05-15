@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediTrack | Medication Reminder</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #0077b6;
+      --primary-light: #00b4d8;
+      --primary-dark: #03045e;
+      --accent: #48cae4;
+      --bg-light: #f0f8ff;
+      --text-dark: #334155;
+      --text-light: #64748b;
+      --white: #ffffff;
+      --shadow: 0 10px 30px rgba(0, 119, 182, 0.1);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', 'Segoe UI', sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* Navigation */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    
+    .logo i {
+      margin-right: 8px;
+      color: var(--accent);
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 30px;
+    }
+    
+    .nav-links a {
+      color: var(--text-dark);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+    
+    .auth-buttons {
+      display: flex;
+      gap: 15px;
+    }
+    
+    .btn {
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    
+    .btn-outline {
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      background: transparent;
+    }
+    
+    .btn-outline:hover {
+      background-color: var(--primary);
+      color: var(--white);
+    }
+    
+    .btn-primary {
+      background-color: var(--primary);
+      color: var(--white);
+      border: none;
+    }
+    
+    .btn-primary:hover {
+      background-color: var(--primary-light);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 119, 182, 0.3);
+    }
+    
+    /* Hero Section */
+    .hero {
+      display: flex;
+      align-items: center;
+      padding: 80px 0;
+    }
+    
+    .hero-content {
+      flex: 1;
+      padding-right: 40px;
+    }
+    
+    .hero-content h1 {
+      font-size: 48px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      color: var(--primary-dark);
+      line-height: 1.2;
+    }
+    
+    .hero-content h1 span {
+      color: var(--primary);
+    }
+    
+    .hero-content p {
+      font-size: 18px;
+      color: var(--text-light);
+      margin-bottom: 40px;
+    }
+    
+    .hero-image {
+      flex: 1;
+      position: relative;
+    }
+    
+    .mockup {
+      width: 100%;
+      max-width: 500px;
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      position: relative;
+      z-index: 1;
+    }
+    
+    .blob {
+      position: absolute;
+      width: 450px;
+      height: 450px;
+      background-color: var(--accent);
+      opacity: 0.15;
+      border-radius: 50%;
+      right: 0;
+      top: -100px;
+      z-index: 0;
+    }
+    
+    /* Features Section */
+    .features {
+      padding: 80px 0;
+      position: relative;
+    }
+    
+    .section-heading {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    
+    .section-heading h2 {
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 15px;
+    }
+    
+    .section-heading p {
+      color: var(--text-light);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+    
+    .feature-card {
+      background-color: var(--white);
+      border-radius: 16px;
+      padding: 40px 30px;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 35px rgba(0, 119, 182, 0.15);
+    }
+    
+    .feature-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      background-color: rgba(0, 180, 216, 0.1);
+      border-radius: 16px;
+      margin-bottom: 20px;
+    }
+    
+    .feature-icon i {
+      font-size: 24px;
+      color: var(--primary);
+    }
+    
+    .feature-card h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: var(--primary-dark);
+    }
+    
+    .feature-card p {
+      color: var(--text-light);
+      font-size: 16px;
+    }
+    
+    /* CTA Section */
+    .cta {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      padding: 80px 0;
+      text-align: center;
+      color: var(--white);
+      border-radius: 20px;
+      margin: 40px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .cta-circle {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .cta-circle-1 {
+      top: -150px;
+      left: -150px;
+    }
+    
+    .cta-circle-2 {
+      bottom: -150px;
+      right: -150px;
+    }
+    
+    .cta h2 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    
+    .cta p {
+      max-width: 600px;
+      margin: 0 auto 30px;
+      opacity: 0.9;
+    }
+    
+    .btn-light {
+      background-color: var(--white);
+      color: var(--primary);
+      border: none;
+    }
+    
+    .btn-light:hover {
+      background-color: rgba(255, 255, 255, 0.9);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Footer */
+    footer {
+      background-color: var(--white);
+      padding: 60px 0 30px;
+      border-top: 1px solid rgba(0, 119, 182, 0.1);
+    }
+    
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    
+    .footer-column h4 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: var(--primary-dark);
+    }
+    
+    .footer-column ul {
+      list-style: none;
+    }
+    
+    .footer-column ul li {
+      margin-bottom: 10px;
+    }
+    
+    .footer-column ul li a {
+      color: var(--text-light);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    .footer-column ul li a:hover {
+      color: var(--primary);
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 15px;
+    }
+    
+    .social-links a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      background-color: rgba(0, 119, 182, 0.1);
+      border-radius: 50%;
+      color: var(--primary);
+      transition: all 0.3s ease;
+    }
+    
+    .social-links a:hover {
+      background-color: var(--primary);
+      color: var(--white);
+    }
+    
+    .copyright {
+      text-align: center;
+      padding-top: 30px;
+      border-top: 1px solid rgba(0, 119, 182, 0.1);
+      color: var(--text-light);
+      font-size: 14px;
+    }
+    
+    /* Responsive Styles */
+    @media screen and (max-width: 992px) {
+      .hero {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .hero-content {
+        padding-right: 0;
+        margin-bottom: 40px;
+      }
+      
+      .mockup {
+        margin: 0 auto;
+      }
+    }
+    
+    @media screen and (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      
+      .hero-content h1 {
+        font-size: 36px;
+      }
+      
+      .feature-card {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo">
+          <i class="fas fa-pills"></i>
+          <span>MediTrack</span>
+        </div>
+        <div class="nav-links">
+          <a href="#">Features</a>
+          <a href="#">How It Works</a>
+          <a href="#">Testimonials</a>
+          <a href="#">Support</a>
+        </div>
+        <div class="auth-buttons">
+          <a href="{% url 'login' %}" class="btn btn-outline">Log In</a>
+          <a href="{% url 'register' %}" class="btn btn-primary">Sign Up</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1>Your Personal <span>Medication</span> Assistant</h1>
+        <p>Never miss a dose again with MediTrack. Simple, reliable medication and refill reminders to keep your health on track.</p>
+        <a href="{% url 'register' %}" class="btn btn-primary">Get Started Today</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Redesigned Features Section -->
+<section class="features">
+  <div class="container">
+    <div class="section-heading">
+      <h2>What MediTrack Offers</h2>
+      <p>Simple tools to keep your medication on schedule and your health on track.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-bell"></i>
+        </div>
+        <div class="feature-text">
+          <h3>Smart Reminders</h3>
+          <p>Custom alerts that ensure you take your medications on time — every time.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-pills"></i>
+        </div>
+        <div class="feature-text">
+          <h3>Multi-Med Support</h3>
+          <p>Manage multiple prescriptions effortlessly — for yourself or a loved one.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-sync-alt"></i>
+        </div>
+        <div class="feature-text">
+          <h3>Refill Alerts</h3>
+          <p>Timely reminders to restock your meds before they run out.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-user-shield"></i>
+        </div>
+        <div class="feature-text">
+          <h3>Privacy First</h3>
+          <p>Your data stays secure and confidential, always.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-chart-pie"></i>
+        </div>
+        <div class="feature-text">
+          <h3>Progress Insights</h3>
+          <p>Visual summaries of your adherence over time, made simple.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-calendar-check"></i>
+        </div>
+        <div class="feature-text">
+          <h3>Daily Schedule</h3>
+          <p>A clear timeline of your day’s doses, all in one glance.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- CTA Section -->
+  <div class="container">
+    <section class="cta">
+      <div class="cta-circle cta-circle-1"></div>
+      <div class="cta-circle cta-circle-2"></div>
+      <h2>Ready to Take Control of Your Health?</h2>
+      <p>Join thousands of users who have improved their medication adherence with MediTrack. Setting up your account takes less than 2 minutes.</p>
+      <a href="{% url 'register' %}" class="btn btn-light">Create Free Account</a>
+    </section>
+  </div>
+  
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-column">
+        <h4>MediTrack</h4>
+        <p>This project is developed as part of a student initiative for educational purposes only.</p>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-github"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+      <div class="footer-column">
+        <h4>About</h4>
+        <ul>
+          <li><a href="#">Project Overview</a></li>
+          <li><a href="#">Student Team</a></li>
+          <li><a href="#">Academic Context</a></li>
+        </ul>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2025 MediTrack | Student Project. For academic use only.</p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

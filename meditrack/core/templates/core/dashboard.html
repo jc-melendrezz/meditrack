@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MediTrack | Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    :root {
+      --primary: #0077b6;
+      --primary-light: #00b4d8;
+      --primary-dark: #03045e;
+      --accent: #48cae4;
+      --bg-light: #f0f8ff;
+      --text-dark: #334155;
+      --text-light: #64748b;
+      --white: #ffffff;
+      --shadow: 0 10px 30px rgba(0, 119, 182, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', 'Segoe UI', sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: var(--white);
+      height: 100vh;
+      padding: 30px 20px;
+      box-shadow: var(--shadow);
+      position: fixed;
+      top: 0;
+      left: -250px;
+      z-index: 1000;
+      transition: left 0.3s ease;
+    }
+
+    .sidebar.active {
+      left: 0;
+    }
+
+    .sidebar h2 {
+      font-size: 22px;
+      margin-bottom: 30px;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+    }
+
+    .sidebar h2 i {
+      margin-right: 10px;
+      color: var(--accent);
+    }
+
+    .sidebar ul {
+      list-style: none;
+    }
+
+    .sidebar ul li {
+      margin-bottom: 20px;
+    }
+
+    .sidebar ul li a {
+      text-decoration: none;
+      color: var(--text-dark);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      transition: color 0.3s ease;
+    }
+
+    .sidebar ul li a i {
+      margin-right: 10px;
+      color: var(--primary-light);
+    }
+
+    .sidebar ul li a:hover {
+      color: var(--primary);
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.3s ease;
+    }
+
+    .overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .burger-menu {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--primary);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 1001;
+      box-shadow: 0 2px 10px rgba(0, 119, 182, 0.3);
+    }
+
+    .burger-menu i {
+      color: var(--white);
+      font-size: 18px;
+    }
+
+    .main {
+      padding: 40px 20px 40px 20px;
+      transition: margin-left 0.3s ease;
+    }
+
+    .header {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 30px;
+      padding-left: 40px;
+    }
+
+    .header h1 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--primary-dark);
+    }
+
+    .header p {
+      font-size: 16px;
+      color: var(--text-light);
+      margin-bottom: 20px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background-color: var(--white);
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      transition: 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 100%;
+      background-color: var(--primary-light);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 119, 182, 0.15);
+    }
+
+    .card i {
+      font-size: 24px;
+      color: var(--primary);
+      margin-bottom: 15px;
+      display: block;
+    }
+
+    .card h3 {
+      font-size: 18px;
+      margin-bottom: 12px;
+      color: var(--primary-dark);
+    }
+
+    .card p {
+      font-size: 14px;
+      color: var(--text-light);
+      line-height: 1.5;
+    }
+
+    .btn-container {
+      display: flex;
+      justify-content: flex-start;
+      padding-left: 40px;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: var(--white);
+      padding: 12px 25px;
+      border-radius: 50px;
+      text-decoration: none;
+      display: inline-block;
+      font-weight: 600;
+      transition: 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0, 119, 182, 0.2);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-light);
+      box-shadow: 0 8px 20px rgba(0, 119, 182, 0.3);
+      transform: translateY(-2px);
+    }
+
+    @media screen and (min-width: 769px) {
+      .main {
+        padding-left: 60px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay" id="overlay"></div>
+  
+  <div class="burger-menu" id="burgerMenu">
+    <i class="fas fa-bars"></i>
+  </div>
+
+  <div class="sidebar" id="sidebar">
+    <h2><i class="fas fa-pills"></i>MediTrack</h2>
+    <ul>
+      <li><a href="#"><i class="fas fa-home"></i> Dashboard</a></li>
+      <li><a href="#"><i class="fas fa-capsules"></i> My Medications</a></li>
+      <li><a href="#"><i class="fas fa-bell"></i> Reminders</a></li>
+      <li><a href="#"><i class="fas fa-calendar-check"></i> Schedule</a></li>
+      <li><a href="#"><i class="fas fa-user-cog"></i> Account</a></li>
+      <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+    </ul>
+  </div>
+
+  <div class="main">
+    <div class="header">
+      <h1>Welcome back, {{ user.first_name|default:user.username }}!</h1>
+      <p>Here's a quick summary of your medication activity:</p>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <i class="fas fa-clock"></i>
+        <h3>Upcoming Doses</h3>
+        <p>Next dose in 2 hours: Paracetamol 500mg</p>
+      </div>
+      <div class="card">
+        <i class="fas fa-prescription-bottle-alt"></i>
+        <h3>Refill Needed</h3>
+        <p>Amlodipine: Only 3 pills left. Refill recommended.</p>
+      </div>
+      <div class="card">
+        <i class="fas fa-chart-pie"></i>
+        <h3>Adherence Score</h3>
+        <p>You've taken 95% of your doses this week. Great job!</p>
+      </div>
+      <div class="card">
+        <i class="fas fa-bell"></i>
+        <h3>Reminders Set</h3>
+        <p>You currently have 4 daily reminders active.</p>
+      </div>
+    </div>
+
+    <div class="btn-container">
+      <a href="#" class="btn-primary">Manage Medications</a>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const burgerMenu = document.getElementById('burgerMenu');
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('overlay');
+
+      burgerMenu.addEventListener('click', function() {
+        sidebar.classList.toggle('active');
+        overlay.classList.toggle('active');
+      });
+
+      overlay.addEventListener('click', function() {
+        sidebar.classList.remove('active');
+        overlay.classList.remove('active');
+      });
+    });
+  </script>
+</body>
+</html>
