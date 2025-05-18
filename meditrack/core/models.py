@@ -4,10 +4,11 @@ from users.models import CustomUser
 class Medication(models.Model):
   user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
   name = models.CharField(max_length=255)
-  dosage = models.CharField(max_length=100)
-  schedule = models.CharField(max_length=255)
+  dosage = models.CharField(max_length=100, help_text='Total amount of dosage per pill.')
+  schedule = models.PositiveIntegerField(help_text="Total amount of medication intakes per day. ")
   start_date = models.DateField()
   end_date = models.DateField(null=True, blank=True)
+  quantity_available = models.PositiveIntegerField(default=0, help_text="Total number of medication units currently available.")
   notes = models.TextField(null=True, blank=True)
   
   def __str__(self):

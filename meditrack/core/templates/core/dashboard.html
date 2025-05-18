@@ -201,6 +201,7 @@
       color: var(--text-light);
       line-height: 1.5;
     }
+    
 
     .btn-container {
       display: flex;
@@ -226,11 +227,27 @@
       transform: translateY(-2px);
     }
 
+    #add_medications{
+      margin-right: auto;
+      background-color: #0077b6;
+      border-radius: 5px;
+      text-decoration: none;
+      color: white;
+      font-size: 11px;
+      padding: 5px;
+    }
+
+    #add_medications:hover{
+      background-color: #024f79;
+    }
+
     @media screen and (min-width: 769px) {
       .main {
         padding-left: 60px;
       }
     }
+
+
   </style>
 </head>
 <body>
@@ -262,7 +279,10 @@
       <div class="card">
         <i class="fas fa-clock"></i>
         <h3>Upcoming Doses</h3>
-        <p>Next dose in 2 hours: Paracetamol 500mg</p>
+        {% for reminder in medication_reminders %}
+          <p>Next dose at {{reminder.reminder_time}}: {{reminder.medication.name}} {{reminder.dosage}}</p>
+        {% endfor %}
+        <a href="{% url 'medications' %}" id="add_medications">Add Medications</a>
       </div>
       <div class="card">
         <i class="fas fa-prescription-bottle-alt"></i>

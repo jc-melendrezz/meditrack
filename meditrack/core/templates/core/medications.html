@@ -1,0 +1,15 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medications</title>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        {{ form1.as_p }}
+        {{ form2.as_p }}
+        <button type="submit">Add Medication</button>
+    </form>
+</body>
+</html>
