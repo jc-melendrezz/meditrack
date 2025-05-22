@@ -1,0 +1,9 @@
+^CNow: 2025-05-21 17:50:00.879373+08:00 (tz: Asia/Manila)
+Reminder time: 17:50:00 (tz: None)
+Would send sms to None: It's time to take your medicine
+^CNow: 2025-05-21 18:20:12.694224+08:00 (tz: Asia/Manila)
+Reminder time: 06:00:00 (tz: None)
+Would send sms to None: Morning dose of paracetamol
+Now: 2025-05-21 18:20:12.694224+08:00 (tz: Asia/Manila)
+Reminder time: 17:50:00 (tz: None)
+Would send sms to None: It's time to take your medicine

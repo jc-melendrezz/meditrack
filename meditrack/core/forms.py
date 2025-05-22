@@ -18,12 +18,35 @@ class MedicationForm(forms.ModelForm):
             raise self.add_error('end_date', "End date can't be before start_date")
 
 class MedicationReminderForm(forms.ModelForm):
-    reminder_time = forms.TimeField()
+    reminder_time = forms.TimeField(
+        widget=forms.TimeInput(attrs={'type': 'time', 'id': 'reminder_time'}),
+        label='Set Reminder Time'
+    )
     reminder_message = forms.CharField(max_length=200)
 
     class Meta:
         model = MedicationReminder
         fields = ['reminder_time', 'reminder_message']
+
+    def clean(self):
+        cleaned_data = super().clean()
+        return cleaned_data
+
+class AddReminderForm(forms.ModelForm):
+    medication = forms.ModelChoiceField(
+        queryset=Medication.objects.all(),
+        empty_label="Select a medication",
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+    reminder_time = forms.TimeField(
+        widget=forms.TimeInput(attrs={'type': 'time', 'id': 'reminder_time'}),
+        label='Set Reminder Time'
+    )
+    reminder_message = forms.CharField(max_length=200)
+
+    class Meta:
+        model = MedicationReminder
+        fields = ['medication','reminder_time', 'reminder_message']
 
     def clean(self):
         cleaned_data = super().clean()
