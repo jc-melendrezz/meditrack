@@ -1,0 +1,4 @@
+C:\Users\Acer\AppData\Local\Programs\Python\Python312\python.exe: can't open file 'C:\\Users\\Acer\\meditrack_new\\integ_final_project\\meditrack\\meditrack\\manage.py': [Errno 2] No such file or directory
+C:\Users\Acer\AppData\Local\Programs\Python\Python312\python.exe: can't open file 'C:\\Users\\Acer\\meditrack_new\\integ_final_project\\meditrack\\meditrack\\manage.py': [Errno 2] No such file or directory
+C:\Users\Acer\AppData\Local\Programs\Python\Python312\python.exe: can't open file 'C:\\Users\\Acer\\meditrack_new\\integ_final_project\\meditrack\\meditrack\\manage.py': [Errno 2] No such file or directory
+C:\Users\Acer\AppData\Local\Programs\Python\Python312\python.exe: can't open file 'C:\\Users\\Acer\\meditrack_new\\integ_final_project\\meditrack\\meditrack\\manage.py': [Errno 2] No such file or directory

@@ -12,7 +12,7 @@ class Command(BaseCommand):
         now = timezone.localtime()
         current_time = now.time()
 
-        reminder = MedicationReminder.objects.filter(reminder_time__lte=current_time,  reminder_sent=False)
+        reminder = MedicationReminder.objects.all()
         for med_reminder in reminder:
             send_reminder(med_reminder.medication.user, med_reminder)
             med_reminder.reminder_sent = True

@@ -47,5 +47,10 @@ def add_reminder(request):
   return render(request, 'core/add_reminder.html', {'form': form})
 
 @login_required
+def manage_medications(request):
+  medications = Medication.objects.filter(user=request.user)
+  return render(request, 'core/manage_medications.html', {'medications': medications})
+
+@login_required
 def user_account(request):
   return render(request, 'core/user_account.html')

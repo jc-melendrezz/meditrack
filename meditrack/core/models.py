@@ -1,6 +1,6 @@
 from django.db import models
 from users.models import CustomUser
-
+from django.utils import timezone
 class Medication(models.Model):
   user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
   name = models.CharField(max_length=255)
@@ -21,6 +21,9 @@ class MedicationReminder(models.Model):
   reminder_message = models.CharField(max_length=255, null=True, blank=True)
   reminder_sent = models.BooleanField(default=False)
   created_at = models.DateTimeField(auto_now_add=True)
+  last_reminder = models.DateTimeField(default=timezone.now)
+  interval_unit = models.CharField(default='hours')
+  interval_value = models.IntegerField(default=1)
   
   def __str__(self):
     return f"Reminder at {self.reminder_time} for {self.medication.name}"
