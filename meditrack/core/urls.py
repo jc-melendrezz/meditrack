@@ -7,5 +7,5 @@ urlpatterns = [
     path('add_reminder/', add_reminder, name="add_reminder"),
     path('manage_medications', manage_medications, name="manage_medications"), 
     path('edit_medication/<int:medication_id>/', edit_medication, name='edit_medication'),
-    path('delete_medication/<int:medication_id>/', delete_medication, name='delete_medication')
+    path('delete_medication/<int:medication_id>/', delete_medication, name='delete_medication'),
   ]

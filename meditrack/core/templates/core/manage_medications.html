@@ -253,6 +253,28 @@
       box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.1);
     }
 
+    .search-container button[type="submit"] {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: var(--primary);
+      color: var(--white);
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0, 119, 182, 0.2);
+    }
+
+    .search-container button[type="submit"]:hover {
+      background-color: var(--primary-light);
+      box-shadow: 0 4px 12px rgba(0, 119, 182, 0.3);
+      transform: translateY(-50%) translateY(-1px);
+    }
+
     .medications-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -375,11 +397,9 @@
     <h2><i class="fas fa-pills"></i>MediTrack</h2>
     <ul>
       <li><a href="{% url 'dashboard' %}"><i class="fas fa-home"></i> Dashboard</a></li>
-      <li><a href="{% url 'manage_medications' %}" class="active"><i class="fas fa-capsules"></i> My Medications</a></li>
-      <li><a href="#"><i class="fas fa-bell"></i> Reminders</a></li>
-      <li><a href="#"><i class="fas fa-calendar-check"></i> Schedule</a></li>
+      <li><a href="" class="active"><i class="fas fa-capsules"></i> My Medications</a></li>
       <li><a href="{% url 'user_account' %}"><i class="fas fa-user-cog"></i> Account</a></li>
-      <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+      <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
     </ul>
   </div>
 

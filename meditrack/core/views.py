@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Medication, MedicationReminder
+from django.contrib.auth import update_session_auth_hash
 from datetime import timedelta
-from .forms import MedicationForm, MedicationReminderForm, AddReminderForm
+from django.contrib import messages
+from .forms import MedicationForm, MedicationReminderForm, AddReminderForm, ProfileForm, ChangePasswordForm
 # Create your views here.
 
 @login_required
@@ -17,7 +19,10 @@ def dashboard_view(request):
           delta = timedelta(hours=reminder.interval_value)
       else:
           delta = timedelta(minutes=reminder.interval_value)
-      reminder.next_dose = reminder.last_reminder + delta
+      if reminder.medication.daily_meds_taken == reminder.medication.schedule:
+        reminder.next_dose = reminder.reminder_time
+      else:
+        reminder.next_dose = reminder.last_reminder + delta
 
   return render(request, 'core/dashboard.html', {'medications': medications, 'medication_reminders': medication_reminders, 'reminders_amount': reminders_amount})
   
@@ -70,10 +75,6 @@ def manage_medications(request):
     })
 
 @login_required
-def user_account(request):
-  return render(request, 'core/user_account.html')
-
-@login_required
 def edit_medication(request, medication_id):
   medication = get_object_or_404(Medication, id=medication_id, user=request.user)
 
@@ -101,3 +102,38 @@ def delete_medication(request, medication_id):
   medication = get_object_or_404(Medication, id=medication_id, user=request.user)
   medication.delete()
   return redirect('manage_medications')
+
+@login_required
+def user_account(request):
+    user = request.user
+    # Handle profile form submission
+    if request.method == 'POST':
+        if "profile_submit" in request.POST:
+            profile_form = ProfileForm(request.POST, instance=user)
+            if profile_form.is_valid():
+                profile_form.save()
+                messages.success(request, 'Your profile has been updated successfully!')
+                return redirect('user_account')  # Redirect to the same page after saving
+            else:
+                print(profile_form.errors) 
+        if "password_submit" in request.POST:
+              change_password_form = ChangePasswordForm(request.POST)
+              if change_password_form.is_valid():
+                  current_password = change_password_form.cleaned_data["current_password"]
+                  new_password = change_password_form.cleaned_data["new_password"]
+
+                  # Check the current password
+                  if not user.check_password(current_password):
+                      messages.error(request, "Current password is incorrect.")
+                  else:
+                      user.set_password(new_password)
+                      user.save()
+                      update_session_auth_hash(request, user)  # Prevent logout
+                      messages.success(request, "Password changed successfully!")
+                      return redirect('user_account')  # Redirect to the same page after saving
+
+    else:
+        profile_form = ProfileForm(instance=user)
+        change_password_form = ChangePasswordForm()
+        
+    return render(request, 'core/user_account.html')

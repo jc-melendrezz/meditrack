@@ -76,6 +76,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'meditrack.wsgi.application'
 
+# settings.py
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'jomarmelendrez18@gmail.com'  # Replace with your email address
+EMAIL_HOST_PASSWORD = 'qpzxanukvdbwuksk'  # Replace with your email password
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases

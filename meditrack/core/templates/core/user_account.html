@@ -458,11 +458,9 @@
     <h2><i class="fas fa-pills"></i>MediTrack</h2>
     <ul>
       <li><a href="{% url 'dashboard' %}"><i class="fas fa-home"></i> Dashboard</a></li>
-      <li><a href="#"><i class="fas fa-capsules"></i> My Medications</a></li>
-      <li><a href="#"><i class="fas fa-bell"></i> Reminders</a></li>
-      <li><a href="#"><i class="fas fa-calendar-check"></i> Schedule</a></li>
-      <li><a href="#"><i class="fas fa-user-cog"></i> Account</a></li>
-      <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+      <li><a href="{% url 'manage_medications' %}"><i class="fas fa-capsules"></i> My Medications</a></li>
+      <li><a href="{% url 'user_account' %}"><i class="fas fa-user-cog"></i> Account</a></li>
+      <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
     </ul>
   </div>
 
@@ -490,7 +488,7 @@
         <div class="form-row">
           <div class="form-group">
             <label for="first_name">Username</label>
-            <input type="text" id="first_name" name="first_name" value="{{ user.username }}">
+            <input type="text" id="first_name" name="username" value="{{ user.username }}">
           </div>
         </div>
         <div class="form-group">
@@ -499,73 +497,14 @@
         </div>
         <div class="form-group">
           <label for="phone">Phone Number</label>
-          <input type="tel" id="phone" name="phone">
+          <input type="text" id="phone" name="phone_number" value="{{ user.phone_number }}">
         </div>
         <div class="btn-container">
-          <button type="submit" class="btn-primary">Save Changes</button>
+          <button type="submit" class="btn-primary" name="profile_submit">Save Changes</button>
         </div>
       </form>
     </div>
     
-    <div class="card">
-      <h3><i class="fas fa-bell"></i> Notification Settings</h3>
-      <form method="post" action="">
-        {% csrf_token %}
-        <div class="notification-setting">
-          <div class="notification-info">
-            <h4>Medication Reminders</h4>
-            <p>Receive notifications when it's time to take your medication</p>
-          </div>
-          <label class="switch">
-            <input type="checkbox" name="med_reminders" {% if notification_settings.med_reminders %}checked{% endif %}>
-            <span class="slider"></span>
-          </label>
-        </div>
-        <div class="notification-setting">
-          <div class="notification-info">
-            <h4>Refill Alerts</h4>
-            <p>Get notified when you need to refill your prescriptions</p>
-          </div>
-          <label class="switch">
-            <input type="checkbox" name="refill_alerts" {% if notification_settings.refill_alerts %}checked{% endif %}>
-            <span class="slider"></span>
-          </label>
-        </div>
-        <div class="notification-setting">
-          <div class="notification-info">
-            <h4>Appointment Reminders</h4>
-            <p>Be reminded about upcoming doctor appointments</p>
-          </div>
-          <label class="switch">
-            <input type="checkbox" name="appointment_reminders" {% if notification_settings.appointment_reminders %}checked{% endif %}>
-            <span class="slider"></span>
-          </label>
-        </div>
-        <div class="notification-setting">
-          <div class="notification-info">
-            <h4>Email Notifications</h4>
-            <p>Receive notifications via email</p>
-          </div>
-          <label class="switch">
-            <input type="checkbox" name="email_notifications" {% if notification_settings.email_notifications %}checked{% endif %}>
-            <span class="slider"></span>
-          </label>
-        </div>
-        <div class="notification-setting">
-          <div class="notification-info">
-            <h4>SMS Notifications</h4>
-            <p>Receive notifications via text message</p>
-          </div>
-          <label class="switch">
-            <input type="checkbox" name="sms_notifications" {% if notification_settings.sms_notifications %}checked{% endif %}>
-            <span class="slider"></span>
-          </label>
-        </div>
-        <div class="btn-container">
-          <button type="submit" class="btn-primary">Save Preferences</button>
-        </div>
-      </form>
-    </div>
     
     <div class="card">
       <h3><i class="fas fa-lock"></i> Security</h3>
@@ -584,17 +523,10 @@
           <input type="password" id="confirm_password" name="confirm_password">
         </div>
         <div class="btn-container">
-          <button type="submit" class="btn-primary">Change Password</button>
+          <button type="submit" class="btn-primary" name="password_submit">Change Password</button>
         </div>
       </form>
       <hr style="margin: 30px 0; border: none; border-top: 1px solid #e2e8f0;">
-      <h3><i class="fas fa-exclamation-triangle" style="color: #e53e3e;"></i> Danger Zone</h3>
-      <p style="margin-bottom: 20px; color: var(--text-light);">Once you delete your account, there is no going back. Please be certain.</p>
-      <div class="btn-container">
-        <button type="button" class="btn-outline" style="color: #e53e3e; border-color: #e53e3e;" onclick="confirmDelete()">Delete Account</button>
-      </div>
-    </div>
-  </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {

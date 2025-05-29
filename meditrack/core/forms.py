@@ -1,5 +1,7 @@
 from django import forms
 from .models import Medication, MedicationReminder
+from django.contrib.auth.forms import UserChangeForm
+from .models import CustomUser
 
 class MedicationForm(forms.ModelForm):
     class Meta:
@@ -59,5 +61,27 @@ class AddReminderForm(forms.ModelForm):
         cleaned_data = super().clean()
         return cleaned_data
 
-        
 
+#user account forms
+class ProfileForm(forms.ModelForm):
+    phone_number = forms.CharField(max_length=15, required=False, label='Phone Number')
+
+    class Meta:
+        model = CustomUser
+        fields = ['username', 'email', 'phone_number']
+
+
+class ChangePasswordForm(forms.Form):
+    current_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    new_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+
+    def clean(self):
+        cleaned_data = super().clean()
+        new_password = cleaned_data.get("new_password")
+        confirm_password = cleaned_data.get("confirm_password")
+
+        if new_password != confirm_password:
+            raise forms.ValidationError("New passwords do not match.")
+
+        return cleaned_data

@@ -2,8 +2,9 @@ from django.core.management.base import BaseCommand
 from core.models import MedicationReminder, Medication
 from django.utils import timezone
 import logging
-from core.utils import send_reminder
+from core.utils import send_reminder, send_email
 from datetime import timedelta, time
+
 logging.basicConfig(filename='check_reminders.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 
@@ -51,6 +52,7 @@ class Command(BaseCommand):
 
             if should_send:
                 send_reminder(medication.user, med_reminder)
+                send_email(medication.user, med_reminder)
                 medication.quantity_available -= 1
                 medication.daily_meds_taken += 1
                 medication.save()

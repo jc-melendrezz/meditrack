@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MediTrack | Add Reminder</title>
+  <title>MediTrack | Medications</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   <style>
     :root {
@@ -280,27 +280,26 @@
     <h2><i class="fas fa-pills"></i>MediTrack</h2>
     <ul>
       <li><a href="{% url 'dashboard' %}"><i class="fas fa-home"></i> Dashboard</a></li>
-      <li><a href="#"><i class="fas fa-capsules"></i> My Medications</a></li>
-      <li><a href="#"><i class="fas fa-bell"></i> Reminders</a></li>
-      <li><a href="#"><i class="fas fa-calendar-check"></i> Schedule</a></li>
+      <li><a href="{% url 'manage_medications' %}"><i class="fas fa-capsules"></i> My Medications</a></li>
       <li><a href="{% url 'user_account' %}"><i class="fas fa-user-cog"></i> Account</a></li>
-      <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+      <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
     </ul>
   </div>
 
   <div class="main">
     <div class="header">
-      <h1>Add Reminder</h1>
-      <p>Create new reminders to help you stay on track with your medications.</p>
+      <h1>Manage Medications</h1>
+      <p>Edit medications and set up reminders for your prescriptions.</p>
     </div>
 
     <div class="card">
-      <h3><i class="fas fa-bell"></i> New Reminder Details</h3>
+      <h3><i class="fas fa-capsules"></i> Edit Medication</h3>
       <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form1.as_p }}
+        {{ form2.as_p }}
         <div class="btn-container">
-          <button type="submit" class="btn-primary">Add Reminder</button>
+          <button type="submit" class="btn-primary">Save Medication</button>
         </div>
       </form>
     </div>
@@ -323,10 +322,10 @@
       });
     });
   </script>
-  <!-- Flatpickr CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-  <!-- Flatpickr JS -->
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script>
     flatpickr("input[type='time']", {
         enableTime: true,
@@ -336,5 +335,6 @@
         minuteIncrement: 1
     });
   </script>
+
 </body>
 </html>

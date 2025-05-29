@@ -28,3 +28,4 @@ class MedicationReminder(models.Model):
   
   def __str__(self):
     return f"Reminder at {self.reminder_time} for {self.medication.name}"
+  
