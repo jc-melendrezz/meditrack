@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Medication, MedicationReminder
 from django.contrib.auth import update_session_auth_hash
 from datetime import timedelta
+from django.utils import timezone
 from django.contrib import messages
 from .forms import MedicationForm, MedicationReminderForm, AddReminderForm, ProfileForm, ChangePasswordForm
 # Create your views here.
@@ -64,8 +65,10 @@ def add_reminder(request):
 @login_required
 def manage_medications(request):
     search_query = request.GET.get('search', '')
-    medications = Medication.objects.filter(user=request.user)
-    
+    today = timezone.now().date()
+
+    medications = Medication.objects.filter(user=request.user, end_date__gte=today)
+
     if search_query:
         medications = medications.filter(name__icontains=search_query)
     

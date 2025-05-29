@@ -15,20 +15,23 @@ class Command(BaseCommand):
         now = timezone.localtime()
         current_time = now.time()
 
-        # Reset daily_meds_taken at midnight
         if time(0, 0) <= current_time < time(0, 1):
             medications = Medication.objects.all()
             for med in medications:
                 med.daily_meds_taken = 0
                 med.save()
-            self.stdout.write("✅ Reset daily_meds_taken for all medications.")
+            MedicationReminder.objects.update(last_reminder=None)
+            self.stdout.write("✅ Reset daily_meds_taken and last_reminder for all medications.")
 
         reminders = MedicationReminder.objects.select_related('medication', 'medication__user')
 
+        
         for med_reminder in reminders:
             medication = med_reminder.medication
 
-            # Stop if daily limit reached
+            if medication.end_date and medication.end_date < now.date():
+                continue
+
             if medication.daily_meds_taken >= medication.schedule:
                 continue
 
