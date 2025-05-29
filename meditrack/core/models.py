@@ -6,6 +6,7 @@ class Medication(models.Model):
   name = models.CharField(max_length=255)
   dosage = models.CharField(max_length=100, help_text='Total amount of dosage per pill.')
   schedule = models.PositiveIntegerField(help_text="Total amount of medication intakes per day. ")
+  daily_meds_taken = models.IntegerField(default=0)
   start_date = models.DateField()
   end_date = models.DateField(null=True, blank=True)
   quantity_available = models.PositiveIntegerField(default=0, help_text="Total number of medication units currently available.")

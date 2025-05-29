@@ -1,5 +1,6 @@
 import requests 
 import logging
+from .models import Medication
 def send_reminder(user, reminder):
     url = "https://api.textbee.dev/api/v1/gateway/devices/682e66009f3070afa2617ad8/send-sms"
 
@@ -8,7 +9,10 @@ def send_reminder(user, reminder):
         "Content-Type": "application/json"
     }
 
-    message = f"Reminder: It's time to take your medication: {reminder.medication.name} - {reminder.medication.dosage}."
+    if reminder.medication.quantity_available <= 5:
+        message = f"Reminder: It's time to take your medication: {reminder.medication.name} - {reminder.medication.dosage}. Only { reminder.medication.quantity_available} pharmaceutical medicine. Please restock your medicine."
+    else:
+        message = f"Reminder: It's time to take your medication: {reminder.medication.name} - {reminder.medication.dosage}."
 
     number = user.phone_number
 

@@ -374,11 +374,11 @@
   <div class="sidebar" id="sidebar">
     <h2><i class="fas fa-pills"></i>MediTrack</h2>
     <ul>
-      <li><a href="#"><i class="fas fa-home"></i> Dashboard</a></li>
-      <li><a href="#" class="active"><i class="fas fa-capsules"></i> My Medications</a></li>
+      <li><a href="{% url 'dashboard' %}"><i class="fas fa-home"></i> Dashboard</a></li>
+      <li><a href="{% url 'manage_medications' %}" class="active"><i class="fas fa-capsules"></i> My Medications</a></li>
       <li><a href="#"><i class="fas fa-bell"></i> Reminders</a></li>
       <li><a href="#"><i class="fas fa-calendar-check"></i> Schedule</a></li>
-      <li><a href="#"><i class="fas fa-user-cog"></i> Account</a></li>
+      <li><a href="{% url 'user_account' %}"><i class="fas fa-user-cog"></i> Account</a></li>
       <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
     </ul>
   </div>
@@ -393,10 +393,11 @@
     </div>
 
     <div class="search-bar">
-      <div class="search-container">
+      <form method="get" action="" class="search-container">
         <i class="fas fa-search"></i>
-        <input type="text" class="search-input" placeholder="Search medications...">
-      </div>
+        <input type="text" class="search-input" name="search" placeholder="Search medications..." value="{{ request.GET.search }}">
+        <button type="submit">Search</button>
+      </form>
     </div>
 
     <div class="medications-grid">
@@ -408,10 +409,10 @@
               <div class="medication-dosage">{{ medication.dosage }}</div>
             </div>
             <div class="medication-actions">
-              <a href="" class="btn-secondary">
+              <a href="{% url 'edit_medication' medication.id %}" class="btn-secondary">
                 <i class="fas fa-edit"></i>
               </a>
-              <a href="" class="btn-danger" onclick="return confirm('Are you sure you want to delete this medication?')">
+              <a href="{% url 'delete_medication' medication.id %}" class="btn-danger" onclick="return confirm('Are you sure you want to delete this medication?')">
                 <i class="fas fa-trash"></i>
               </a>
             </div>
@@ -434,7 +435,7 @@
             {% endif %}
           </div>
           
-          <span class="status-badge {% if medication.quantity == 0 %}status-out{% elif medication.quantity <= medication.refill_at %}status-low{% else %}status-active{% endif %}">
+          <span class="status-badge {% if medication.quantity_available == 0 %}status-out{% elif medication.quantity_available <= 5 %}status-low{% else %}status-active{% endif %}">
             {% if medication.quantity_available == 0 %}
               Out of Stock
             {% elif medication.quantity_available <= 5 %}
